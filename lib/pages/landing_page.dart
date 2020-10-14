@@ -1,6 +1,9 @@
+import 'package:fark_et/locator.dart';
+import 'package:fark_et/model/student_model.dart';
 import 'package:fark_et/pages/home_page.dart';
 import 'package:fark_et/pages/sign_in_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fark_et/services/auth_base.dart';
+import 'package:fark_et/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatefulWidget {
@@ -9,8 +12,8 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  User _user;
-
+  Student _student;
+  AuthBase authService = locator<FirebaseAuthService>();
   @override
   void initState() {
     super.initState();
@@ -19,15 +22,15 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_user == null) {
+    if (_student == null) {
       return SignInPage(
-        onSignIn: (user) {
-          _updateUser(user);
+        onSignIn: (student) {
+          _updateUser(student);
         },
       );
     } else {
       return HomePage(
-        user: _user,
+        student: _student,
         onSignOut: () {
           _updateUser(null);
         },
@@ -36,12 +39,12 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _checkUser() async {
-    _user = FirebaseAuth.instance.currentUser;
+    _student = await authService.currentStudent();
   }
 
-  void _updateUser(User user) {
+  void _updateUser(Student student) {
     setState(() {
-      _user = user;
+      _student = student;
     });
   }
 }

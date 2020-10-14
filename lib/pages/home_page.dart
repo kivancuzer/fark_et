@@ -1,10 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fark_et/locator.dart';
+import 'package:fark_et/model/student_model.dart';
+import 'package:fark_et/services/auth_base.dart';
+import 'package:fark_et/services/firebase_auth_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  final User user;
+  AuthBase authService = locator<FirebaseAuthService>();
   final VoidCallback onSignOut;
-  HomePage({Key key, this.user, @required this.onSignOut}) : super(key: key);
+  final Student student;
+  HomePage({Key key, @required this.onSignOut, @required this.student})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +27,14 @@ class HomePage extends StatelessWidget {
         title: Text("Anasayfa"),
       ),
       body: Center(
-        child: Text("Hoşgeldiniz {$user.uid}"),
+        child: Text("Hoşgeldiniz ${student.studentId}"),
       ),
     );
   }
 
-  Future<void> _disconnect() async {
-    await FirebaseAuth.instance.signOut();
+  Future<bool> _disconnect() async {
+    bool result = await authService.signOut();
     onSignOut();
+    return result;
   }
 }

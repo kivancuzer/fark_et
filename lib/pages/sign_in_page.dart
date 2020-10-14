@@ -1,11 +1,14 @@
+import 'package:fark_et/locator.dart';
+import 'package:fark_et/model/student_model.dart';
+import 'package:fark_et/services/auth_base.dart';
+import 'package:fark_et/services/firebase_auth_service.dart';
 import 'package:fark_et/widgets/sing_in_page_widgets/social_login_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatelessWidget {
-  final Function(User) onSignIn;
-
-  const SignInPage({Key key, @required this.onSignIn}) : super(key: key);
+  final Function(Student) onSignIn;
+  AuthBase authService = locator<FirebaseAuthService>();
+  SignInPage({Key key, @required this.onSignIn}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class SignInPage extends StatelessWidget {
               buttonText: "Email İle Giriş Yap",
             ),
             SocialLoginButton(
-              onPressed: _misafirGirisi,
+              onPressed: signInAnonymously,
               buttonIcon: Icon(
                 Icons.supervised_user_circle,
                 size: 32,
@@ -69,9 +72,9 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  void _misafirGirisi() async {
-    User user = (await FirebaseAuth.instance.signInAnonymously()).user;
-    onSignIn(user);
-    print('Oturum açan user id' + user.uid.toString());
+  void signInAnonymously() async {
+    Student _student = await authService.signInAnonymously();
+    onSignIn(_student);
+    print("Oturum Açan student id : " + _student.studentId);
   }
 }
