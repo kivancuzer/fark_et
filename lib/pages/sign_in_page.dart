@@ -3,6 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatelessWidget {
+  final Function(User) onSignIn;
+
+  const SignInPage({Key key, @required this.onSignIn}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +71,7 @@ class SignInPage extends StatelessWidget {
 
   void _misafirGirisi() async {
     User user = (await FirebaseAuth.instance.signInAnonymously()).user;
+    onSignIn(user);
     print('Oturum açan user id' + user.uid.toString());
   }
 }
