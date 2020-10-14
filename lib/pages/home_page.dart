@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+  // Student which is signed in
   final Student student;
   HomePage({Key key, @required this.student}) : super(key: key);
 
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         actions: [
           FlatButton(
-            onPressed: () => _disconnect(context),
+            onPressed: () => _signOut(context),
             child: Text(
               "Çıkış Yap",
               style: TextStyle(color: Colors.white),
@@ -28,7 +29,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<bool> _disconnect(BuildContext context) async {
+  /// Sign Out
+  ///
+  /// With using `Provider` trigger the StudentViewModel's `singOut` method.
+  ///
+  /// Returns `true` if signed out success.
+  /// Returns `false` if signed out fail.
+  Future<bool> _signOut(BuildContext context) async {
     final _studentViewModel =
         Provider.of<StudentViewModel>(context, listen: false);
     bool result = await _studentViewModel.signOut();

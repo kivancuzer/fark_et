@@ -33,7 +33,7 @@ class SignInPage extends StatelessWidget {
               textColor: Colors.black87,
               buttonColor: Colors.white,
               buttonIcon: Image.asset("images/google-logo.png"),
-              onPressed: () {},
+              onPressed: () => _googleSignIn(context),
             ),
             SocialLoginButton(
               onPressed: () {},
@@ -67,10 +67,25 @@ class SignInPage extends StatelessWidget {
     );
   }
 
+  /// Sign In Anonymously
+  ///
+  /// With using Provider trigger the StudentViewModel's `signInAnonymously` method.
   void _signInAnonymously(BuildContext context) async {
     final _studentViewModel =
         Provider.of<StudentViewModel>(context, listen: false);
     Student _student = await _studentViewModel.signInAnonymously();
-    print("Oturum Açan student id : " + _student.studentId);
+    if (_student.studentId != null)
+      print("Oturum Açan student id : " + _student.studentId);
+  }
+
+  /// Sign In With Google
+  ///
+  /// With using Provider trigger the StudentViewModel's `googleSignIn` method.
+  void _googleSignIn(BuildContext context) async {
+    final _studentViewModel =
+        Provider.of<StudentViewModel>(context, listen: false);
+    Student _student = await _studentViewModel.googleSignIn();
+    if (_student.studentId != null)
+      print("Oturum Açan student id : " + _student.studentId);
   }
 }

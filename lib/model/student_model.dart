@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-///Model for Student
+/// Model for Student
 class Student {
   final String studentId;
 

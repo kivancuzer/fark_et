@@ -11,8 +11,9 @@ class StudentViewModel with ChangeNotifier implements AuthBase {
   StudentRepository _studentRepository = locator<StudentRepository>();
   Student _student;
 
+  // Get Student
   Student get student => _student;
-
+  // Get ViewState
   ViewState get state => _state;
 
   set state(ViewState state) {
@@ -24,6 +25,10 @@ class StudentViewModel with ChangeNotifier implements AuthBase {
     currentStudent();
   }
 
+  /// Get Current Student
+  ///
+  /// Set ViewState `BUSY` while getting student.
+  /// Trigger the `_studentRepository` for current student.
   @override
   Future<Student> currentStudent() async {
     try {
@@ -38,6 +43,10 @@ class StudentViewModel with ChangeNotifier implements AuthBase {
     }
   }
 
+  /// Sign In Anonymously
+  ///
+  /// Set ViewState `BUSY` while signing with anonymously.
+  /// Trigger the `_studentRepository` for sign with anonymously.
   @override
   Future<Student> signInAnonymously() async {
     try {
@@ -52,6 +61,10 @@ class StudentViewModel with ChangeNotifier implements AuthBase {
     }
   }
 
+  /// Sign Out
+  ///
+  /// Set ViewState `BUSY` while signed out.
+  /// Trigger the `_studentRepository` for signed out.
   @override
   Future<bool> signOut() async {
     try {
@@ -62,6 +75,24 @@ class StudentViewModel with ChangeNotifier implements AuthBase {
     } catch (e) {
       debugPrint("ViewModel sign out error : " + e.toString());
       return false;
+    } finally {
+      state = ViewState.IDLE;
+    }
+  }
+
+  /// Sign In With Google
+  ///
+  /// Set ViewState `BUSY` when signed in with google.
+  /// Trigger the `_studentRepository` for sign in with google.
+  @override
+  Future<Student> googleSignIn() async {
+    try {
+      state = ViewState.BUSY;
+      _student = await _studentRepository.googleSignIn();
+      return _student;
+    } catch (e) {
+      debugPrint("ViewModel sign in anonymously error : " + e.toString());
+      return null;
     } finally {
       state = ViewState.IDLE;
     }
