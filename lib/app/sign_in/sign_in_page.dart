@@ -1,6 +1,8 @@
+import 'package:fark_et/app/sign_in/sign_in_with_email_page.dart';
 import 'package:fark_et/model/student_model.dart';
 import 'package:fark_et/viewmodel/student_view_model.dart';
 import 'package:fark_et/widgets/sing_in_page_widgets/social_login_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +44,7 @@ class SignInPage extends StatelessWidget {
               buttonColor: Color(0xFF334D92),
             ),
             SocialLoginButton(
-              onPressed: () {},
+              onPressed: () => _signInWithEmail(context),
               buttonIcon: Icon(
                 Icons.supervised_user_circle,
                 size: 32,
@@ -87,5 +89,14 @@ class SignInPage extends StatelessWidget {
     Student _student = await _studentViewModel.googleSignIn();
     if (_student.studentId != null)
       print("Oturum Açan student id : " + _student.studentId);
+  }
+
+  void _signInWithEmail(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => SignInWithEmailPage(),
+      ),
+    );
   }
 }

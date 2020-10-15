@@ -56,4 +56,25 @@ class StudentRepository implements AuthBase {
       return await _firebaseAuthService.googleSignIn();
     }
   }
+
+  ///Sign In With Email
+  @override
+  Future<Student> signInWithEmail(String email, String password) async {
+    if (appMode == AppMode.DEBUG) {
+      return await _fakeAuthenticationService.signInWithEmail(email, password);
+    } else {
+      return await _firebaseAuthService.signInWithEmail(email, password);
+    }
+  }
+
+  ///Create Student With Email
+  @override
+  Future<Student> createStudentWithEmail(String email, String password) async {
+    if (appMode == AppMode.DEBUG) {
+      return await _fakeAuthenticationService.createStudentWithEmail(
+          email, password);
+    } else {
+      return await _firebaseAuthService.createStudentWithEmail(email, password);
+    }
+  }
 }

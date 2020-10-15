@@ -36,4 +36,15 @@ class FakeAuthenticationService implements AuthBase {
     return Future.delayed(
         Duration(seconds: 2), () => Student(studentId: _studentId));
   }
+
+  @override
+  Future<Student> signInWithEmail(String email, String password) {
+    return Future.delayed(
+        Duration(seconds: 2), () => Student(studentId: _studentId));
+  }
+
+  @override
+  Future<Student> createStudentWithEmail(String email, String password) {
+    return null;
+  }
 }

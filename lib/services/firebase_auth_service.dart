@@ -34,20 +34,6 @@ class FirebaseAuthService implements AuthBase {
     return Student(studentId: user.uid);
   }
 
-  /// Sign In Anonymously
-  ///
-  /// Returns `Student` which is sign in anonymously.
-  @override
-  Future<Student> signInAnonymously() async {
-    try {
-      User user = (await _firebaseAuth.signInAnonymously()).user;
-      return _userFromFirebase(user);
-    } catch (e) {
-      print("HATA SIGN IN ANONYMOUSLY : " + e.toString());
-      return null;
-    }
-  }
-
   /// Sign Out
   ///
   /// Returns `true` if signed out success.
@@ -62,6 +48,20 @@ class FirebaseAuthService implements AuthBase {
     } catch (e) {
       print("HATA SIGN OUT : " + e.toString());
       return false;
+    }
+  }
+
+  /// Sign In Anonymously
+  ///
+  /// Returns `Student` which is sign in anonymously.
+  @override
+  Future<Student> signInAnonymously() async {
+    try {
+      User user = (await _firebaseAuth.signInAnonymously()).user;
+      return _userFromFirebase(user);
+    } catch (e) {
+      print("HATA SIGN IN ANONYMOUSLY : " + e.toString());
+      return null;
     }
   }
 
@@ -86,6 +86,38 @@ class FirebaseAuthService implements AuthBase {
         return null;
       }
     } else {
+      return null;
+    }
+  }
+
+  ///Sign In With Email
+  ///
+  ///Returns `Student` if success
+  @override
+  Future<Student> signInWithEmail(String email, String password) async {
+    try {
+      User user = (await _firebaseAuth.signInWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+      return _userFromFirebase(user);
+    } catch (e) {
+      print("HATA SIGN IN ANONYMOUSLY : " + e.toString());
+      return null;
+    }
+  }
+
+  ///Create Student With Email
+  ///
+  ///Returns `Student` if doesn't exists and success
+  @override
+  Future<Student> createStudentWithEmail(String email, String password) async {
+    try {
+      User user = (await _firebaseAuth.createUserWithEmailAndPassword(
+              email: email, password: password))
+          .user;
+      return _userFromFirebase(user);
+    } catch (e) {
+      print("HATA SIGN IN ANONYMOUSLY : " + e.toString());
       return null;
     }
   }

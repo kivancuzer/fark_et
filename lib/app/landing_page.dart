@@ -1,5 +1,5 @@
-import 'package:fark_et/pages/home_page.dart';
-import 'package:fark_et/pages/sign_in_page.dart';
+import 'package:fark_et/app/home_page.dart';
+import 'package:fark_et/app/sign_in/sign_in_page.dart';
 import 'package:fark_et/viewmodel/student_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
